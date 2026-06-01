@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Street Life — Game Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#f0c040;
+  --gold2:#c8a020;
+  --bg:#080c08;
+  --bg2:#0c120c;
+  --bg3:#101810;
+  --green:#10b981;
+  --red:#ef4444;
+  --purple:#818cf8;
+  --text:#e2e8f0;
+  --muted:#4a6a4a;
+  --border:rgba(240,192,64,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:40px 20px;background:radial-gradient(ellipse at 50% 0%,rgba(240,192,64,0.08) 0%,transparent 70%)}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0c040' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.city-icon{font-size:80px;margin-bottom:20px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,15vw,120px);color:var(--gold);letter-spacing:8px;line-height:0.9;text-shadow:0 0 60px rgba(240,192,64,0.3);margin-bottom:10px}
+.hero .tagline{font-size:clamp(12px,3vw,16px);color:var(--muted);letter-spacing:4px;text-transform:uppercase;margin-bottom:30px}
+.hero .desc{font-size:clamp(14px,3vw,18px);color:#6a8a6a;max-width:500px;line-height:1.7;margin-bottom:40px}
+.play-btn{padding:16px 48px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#0a0800;font-size:16px;font-weight:700;border-radius:12px;text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s;display:inline-block;box-shadow:0 8px 32px rgba(240,192,64,0.25)}
+.play-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(240,192,64,0.4)}
+.scroll-hint{margin-top:40px;color:var(--muted);font-size:11px;letter-spacing:2px;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+/* Sections */
+section{padding:60px 20px;max-width:900px;margin:0 auto}
+.section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,64px);color:var(--gold);letter-spacing:4px;margin-bottom:30px;line-height:1}
+
+/* Divider */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 auto;max-width:900px}
+
+/* Quick start */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:rgba(240,192,64,0.1);position:absolute;top:10px;right:16px;line-height:1}
+.step-icon{font-size:28px;margin-bottom:10px}
+.step h3{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:6px;letter-spacing:0.5px}
+.step p{font-size:12px;color:#4a6a4a;line-height:1.6}
+
+/* Career cards */
+.careers{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.career{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all 0.2s}
+.career:hover{border-color:rgba(240,192,64,0.3);transform:translateY(-2px)}
+.career-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.career-icon{font-size:28px}
+.career-name{font-size:14px;font-weight:600;color:var(--gold)}
+.career-path{font-size:10px;color:var(--muted);letter-spacing:0.5px;margin-top:2px}
+.career-desc{font-size:11px;color:#4a6a4a;line-height:1.6;margin-bottom:10px}
+.career-levels{display:flex;gap:4px;flex-wrap:wrap}
+.level-dot{width:8px;height:8px;border-radius:50%;background:rgba(240,192,64,0.2)}
+.level-dot.filled{background:var(--gold)}
+
+/* System cards */
+.systems{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.sys{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px}
+.sys-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sys-icon{font-size:24px}
+.sys-title{font-size:14px;font-weight:600;color:var(--text)}
+.sys-body{font-size:12px;color:#4a6a4a;line-height:1.7}
+.sys-body strong{color:#6a8a6a}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.5px;margin:2px}
+.tag.green{background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2)}
+.tag.red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+.tag.gold{background:rgba(240,192,64,0.1);color:var(--gold);border:1px solid rgba(240,192,64,0.2)}
+.tag.purple{background:rgba(129,140,248,0.1);color:var(--purple);border:1px solid rgba(129,140,248,0.2)}
+
+/* Tips */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.tip{background:var(--bg2);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 16px}
+.tip-title{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:4px}
+.tip-text{font-size:11px;color:#4a6a4a;line-height:1.6}
+
+/* Milestone list */
+.milestones{display:flex;flex-direction:column;gap:12px}
+.ms{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px}
+.ms-ico{font-size:32px;width:40px;text-align:center}
+.ms-name{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:3px}
+.ms-desc{font-size:11px;color:#4a6a4a;line-height:1.5}
+
+/* Controls */
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.ctrl{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.ctrl-key{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);margin-bottom:6px}
+.ctrl-desc{font-size:11px;color:#4a6a4a}
+
+/* Story arc */
+.arc{background:var(--bg2);border:1px solid rgba(239,68,68,0.2);border-radius:14px;padding:24px;margin-top:20px}
+.arc h3{font-size:14px;font-weight:600;color:var(--red);margin-bottom:16px;letter-spacing:1px}
+.arc-steps{display:flex;flex-direction:column;gap:0}
+.arc-step{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.arc-step:last-child{border-bottom:none}
+.arc-day{font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(239,68,68,0.7);min-width:60px}
+.arc-text{font-size:12px;color:#6a4a4a;line-height:1.6}
+.arc-text strong{color:#8a6a6a}
+
+/* Footer */
+footer{text-align:center;padding:60px 20px;border-top:1px solid var(--border)}
+footer .f-title{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+footer p{font-size:12px;color:var(--muted);margin-bottom:20px}
+
+/* Responsive */
+@media(max-width:600px){
+  .hero h1{letter-spacing:4px}
+  section{padding:40px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="city-icon">🏙️</div>
+  <h1>STREET LIFE</h1>
+  <div class="tagline">Your Story · Your Rules · Your City</div>
+  <p class="desc">A life simulation game where you start from nothing and build your way up. Work, hustle, grind — the choice is yours.</p>
+  <a href="https://spdadon.github.io/Street-life/" class="play-btn" target="_blank">▶ PLAY NOW</a>
+  <div class="scroll-hint">↓ SCROLL TO LEARN MORE ↓</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- QUICK START -->
+<section>
+  <div class="section-label">Getting Started</div>
+  <div class="section-title">HOW TO PLAY</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-icon">👤</div>
+      <h3>Create Your Character</h3>
+      <p>Pick your name, gender, skin tone, hair color and background. Your background affects your starting money and skills.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-icon">🗺️</div>
+      <h3>Explore the City</h3>
+      <p>Tap or click buildings to interact. Walk up to people to talk. The city has two sides — rough and nice — each with different opportunities.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-icon">💵</div>
+      <h3>Make Money</h3>
+      <p>Get a career, pick up gig work, start streaming, or run the streets. Rent is $25/day so keep your cash flowing.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-icon">👑</div>
+      <h3>Build Your Life</h3>
+      <p>Level up your career, save money, build credit, buy your apartment and unlock the Made milestone.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTROLS -->
+<section>
+  <div class="section-label">Controls</div>
+  <div class="section-title">HOW TO MOVE</div>
+  <div class="controls">
+    <div class="ctrl"><div class="ctrl-key">TAP</div><div class="ctrl-desc">Tap anywhere on the map to walk there. Tap a building or person to interact.</div></div>
+    <div class="ctrl"><div class="ctrl-key">WASD</div><div class="ctrl-desc">Keyboard arrow keys or WASD to walk around on desktop.</div></div>
+    <div class="ctrl"><div class="ctrl-key">📱</div><div class="ctrl-desc">Phone button bottom left — opens messages, apps, dealer mode and stream stats.</div></div>
+    <div class="ctrl"><div class="ctrl-key">⏸</div><div class="ctrl-desc">Pause button top center — pause the game, save, or view the tutorial.</div></div>
+    <div class="ctrl"><div class="ctrl-key">🏆</div><div class="ctrl-desc">Trophy button top center — check your milestones and life stats.</div></div>
+    <div class="ctrl"><div class="ctrl-key">🕹️</div><div class="ctrl-key" style="font-size:14px;margin-top:4px">JOYSTICK</div><div class="ctrl-desc">On mobile a joystick appears bottom left. Action buttons on the right.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BACKGROUNDS -->
+<section>
+  <div class="section-label">Character Creation</div>
+  <div class="section-title">BACKGROUNDS</div>
+  <div class="systems">
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">😤</div><div class="sys-title">Broke Hustler</div></div>
+      <div class="sys-body">Start with <strong>$50</strong> and a boosted Hustle skill. Hardest start but you know how to grind. Best for players who want the full struggle experience.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">👷</div><div class="sys-title">Hard Worker</div></div>
+      <div class="sys-body">Start with <strong>$200</strong> and a head start on career readiness. Easier early game. Good for players new to the game who want to focus on careers.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">😎</div><div class="sys-title">Smooth Talker</div></div>
+      <div class="sys-body">Start with <strong>$100</strong> and boosted Charisma. Better at building relationships, faster promotions, better deals. Great for the social playstyle.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAREERS -->
+<section>
+  <div class="section-label">Work</div>
+  <div class="section-title">CAREERS</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7">Every career has 8 levels. Start on-the-job at Level 1 (5 shifts per level) OR get a college certificate for $150 to start at Level 3 (10 shifts per level). Both paths reach Level 8. You can only have ONE career at a time.</p>
+  <div class="careers">
+    <div class="career">
+      <div class="career-header"><div class="career-icon">🩺</div><div><div class="career-name">Medical</div><div class="career-path">Hospital · Orderly → Doctor</div></div></div>
+      <div class="career-desc">Start as an Orderly and work your way up to Doctor. Highest paying career at max level. Dr. Chen gives you discounts if you build a relationship with her.</div>
+      <div class="career-levels"><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div></div>
+    </div>
+    <div class="career">
+      <div class="career-header"><div class="career-icon">💻</div><div><div class="career-name">Tech</div><div class="career-path">Tech Hub · Help Desk → CTO</div></div></div>
+      <div class="career-desc">Start at the Help Desk and grind to CTO. Study tech at the Tech Hub to level up your skill faster. Strong mid-game income.</div>
+      <div class="career-levels"><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div></div>
+    </div>
+    <div class="career">
+      <div class="career-header"><div class="career-icon">👨‍🍳</div><div><div class="career-name">Culinary</div><div class="career-path">City Diner · Dishwasher → Owner</div></div></div>
+      <div class="career-desc">Work your way from Dishwasher to Restaurant Owner. Chef Rosa at the diner is your connection. Good for players who like cooking drugs too.</div>
+      <div class="career-levels"><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div></div>
+    </div>
+    <div class="career">
+      <div class="career-header"><div class="career-icon">⚖️</div><div><div class="career-name">Law</div><div class="career-path">Law Office · Paralegal → Sr. Partner</div></div></div>
+      <div class="career-desc">Highest paying career of all at max level. A law career also helps you win more money if you ever need to file a lawsuit. Attorney James is your contact.</div>
+      <div class="career-levels"><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div></div>
+    </div>
+    <div class="career">
+      <div class="career-header"><div class="career-icon">🔧</div><div><div class="career-name">Mechanic</div><div class="career-path">Auto Shop · Lot Attendant → Shop Owner</div></div></div>
+      <div class="career-desc">Start at the Auto Shop on the rough side. Steady income, great for players who want to stay on the rough side of town.</div>
+      <div class="career-levels"><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div></div>
+    </div>
+    <div class="career">
+      <div class="career-header"><div class="career-icon">📈</div><div><div class="career-name">Business</div><div class="career-path">Business Park · Clerk → CEO</div></div></div>
+      <div class="career-desc">Start as a Clerk at the Business Park on the nice side. Strong all-around career. CEO pays $320 per shift at max level.</div>
+      <div class="career-levels"><div class="level-dot filled"></div><div class="level-dot filled"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div><div class="level-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GIG WORK & STREAMING -->
+<section>
+  <div class="section-label">Side Hustle</div>
+  <div class="section-title">GIG WORK & STREAMING</div>
+  <div class="systems">
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">🚗</div><div class="sys-title">Gig Work</div></div>
+      <div class="sys-body">Open your <strong>Phone → Apps tab</strong> to sign up for gig apps. Three options:<br><br>
+        <span class="tag green">🚗 Delivery</span> Quick tasks, steady pay<br>
+        <span class="tag gold">🔨 TaskRabbit</span> Odd jobs, varies each time<br>
+        <span class="tag purple">🎵 Busking</span> Street performance, tip-based<br><br>
+        Accept or decline tasks from your Messages tab. No career required.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">🎮</div><div class="sys-title">Streaming</div></div>
+      <div class="sys-body">Buy an online course at home ($80) or get certified at College ($100). Then stream from your apartment.<br><br>
+        <strong>Build followers</strong> for passive daily income. Get a camera ($200) to unlock Content Creator for higher earnings. More hours = more followers but more energy drain.<br><br>
+        At 1,000+ followers you are monetized!</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DRUG SYSTEM -->
+<section>
+  <div class="section-label">The Streets</div>
+  <div class="section-title">THE DRUG GAME</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7">This path is high risk, high reward. You can make a lot of money fast — but police watch, heat builds, and Big Mike always wants his cut.</p>
+  <div class="systems">
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">🌱</div><div class="sys-title">Grow Operation</div></div>
+      <div class="sys-body">Plant weed seeds at home ($10 each). Water them to grow faster. 5 growth stages from seedling to harvest. Each plant gives you 4 weed when ready.<br><br><strong>Tip:</strong> Check your Inventory panel to see plant progress.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">⚗️</div><div class="sys-title">Cooking</div></div>
+      <div class="sys-body">Cook at <strong>Big Mikes</strong> or the <strong>Warehouse</strong>.<br><br>
+        <span class="tag green">2 Weed → 1 Pill</span><br>
+        <span class="tag purple">3 Pills → 1 Powder</span> (needs Cook Lv2)<br><br>
+        Powder is the most valuable product. Build your Cook skill to unlock it.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">💊</div><div class="sys-title">Selling</div></div>
+      <div class="sys-body">Two ways to sell:<br><br>
+        <span class="tag green">🏪 Corner Store</span> Safe, no heat, 60% value<br>
+        <span class="tag red">📱 Street Deals</span> Full price but heat risk<br><br>
+        Enable <strong>Dealer Mode</strong> on your phone to receive deal requests. High heat brings police. Stay below 50% heat to stay safe.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">🚔</div><div class="sys-title">Police & Heat</div></div>
+      <div class="sys-body">Heat builds from street dealing. Watch the wanted stars.<br><br>
+        <span class="tag red">3+ Stars</span> Police car spawns and chases you<br>
+        <span class="tag red">Caught</span> Drugs confiscated + $150 fine<br><br>
+        Lay low at home to reduce heat. Get legal help at the Law Office ($200 drops heat 30%).</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BANKING -->
+<section>
+  <div class="section-label">Finance</div>
+  <div class="section-title">BANKING & CREDIT</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7">Visit the <strong>City Bank</strong> on the nice side of town. Tap the CREDIT score in the top right corner anytime to open the bank.</p>
+  <div class="systems">
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">💰</div><div class="sys-title">Savings Account</div></div>
+      <div class="sys-body">Deposit cash to earn <strong>2% interest every week</strong>. Money in the bank grows automatically. Use "Deposit All" to move everything but $25 to savings at once.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">🏦</div><div class="sys-title">Loans</div></div>
+      <div class="sys-body">Borrow money based on your credit score. Better score = bigger loans and lower interest rates. <strong>Pay on time</strong> to build credit. Miss payments and your score drops + a 5% penalty is added to the balance.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">📊</div><div class="sys-title">Credit Score</div></div>
+      <div class="sys-body">Score ranges from 300 to 850.<br><br>
+        <span class="tag red">300-499</span> Very Poor — no loans<br>
+        <span class="tag gold">500-669</span> Fair/Poor — small loans<br>
+        <span class="tag green">670-849</span> Good — buy apartment!<br>
+        <span class="tag green">850</span> Excellent — best rates<br><br>
+        Pay rent on time, hold a job, and save money to boost your score.</div>
+    </div>
+    <div class="sys">
+      <div class="sys-header"><div class="sys-icon">🏠</div><div class="sys-title">Buy Your Apartment</div></div>
+      <div class="sys-body">Get your credit score to <strong>670+</strong> and save $5,000. Buy your apartment and <strong>never pay rent again</strong>. This is one of the biggest milestones in the game.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BIG MIKE ARC -->
+<section>
+  <div class="section-label">Story</div>
+  <div class="section-title">THE BIG MIKE DEBT</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7">Every game starts with a $500 debt to Big Mike. He fronted you money to get into the city. What happens next depends on you.</p>
+  <div class="arc">
+    <h3>⚠️ THE TIMELINE</h3>
+    <div class="arc-steps">
+      <div class="arc-step"><div class="arc-day">DAY 1</div><div class="arc-text">Big Mike texts you. <strong>You owe $500. 30 days to pay.</strong> Pay him anytime by visiting his building.</div></div>
+      <div class="arc-step"><div class="arc-day">DAY 7</div><div class="arc-text">First warning text. He is watching. You still have time.</div></div>
+      <div class="arc-step"><div class="arc-day">DAY 21</div><div class="arc-text">Final warning. His patience is running out.</div></div>
+      <div class="arc-step"><div class="arc-day">DAY 30</div><div class="arc-text">Deadline missed. <strong>Big Mike cuts you off.</strong> No supply for 7 days. Relationship damaged.</div></div>
+      <div class="arc-step"><div class="arc-day">DAY 37</div><div class="arc-text" style="color:#8a4a4a"><strong>He sends someone.</strong> Screen goes red. You get jumped. Health drops to critical. Cash taken. Debt grows 50%.</div></div>
+    </div>
+  </div>
+  <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div class="sys" style="border-color:rgba(16,185,129,0.2)">
+      <div class="sys-header"><div class="sys-icon">✅</div><div class="sys-title" style="color:var(--green)">Pay Early</div></div>
+      <div class="sys-body">Pay before Day 30 — Big Mike respects you. Relationship +25. Credit boost. Better drug prices unlocked.</div>
+    </div>
+    <div class="sys" style="border-color:rgba(239,68,68,0.2)">
+      <div class="sys-header"><div class="sys-icon">⚖️</div><div class="sys-title" style="color:var(--red)">After the Beating</div></div>
+      <div class="sys-body">Attorney James texts you. Go to the Law Office to file a lawsuit. Win $800-$1,200 if your heat is below 50.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MILESTONES -->
+<section>
+  <div class="section-label">Goals</div>
+  <div class="section-title">MILESTONES</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7">Tap the 🏆 trophy button to track your progress. There is no real ending — you keep playing. But these milestones mark how far you have come.</p>
+  <div class="milestones">
+    <div class="ms"><div class="ms-ico">🌱</div><div><div class="ms-name">Survivor</div><div class="ms-desc">Make it to Day 7 without getting evicted. The hardest days are the first ones.</div></div></div>
+    <div class="ms"><div class="ms-ico">💼</div><div><div class="ms-name">Employed</div><div class="ms-desc">Reach Level 3 in any career. You have a real job now. Things are looking up.</div></div></div>
+    <div class="ms"><div class="ms-ico">🏠</div><div><div class="ms-name">Settled</div><div class="ms-desc">Own your apartment. No more rent. You built something that is yours.</div></div></div>
+    <div class="ms"><div class="ms-ico">💰</div><div><div class="ms-name">Stacking</div><div class="ms-desc">Save $10,000 in the bank. Real money. Real options. The city opens up.</div></div></div>
+    <div class="ms"><div class="ms-ico">👑</div><div><div class="ms-name">Made</div><div class="ms-desc">Level 8 career + own your home + $25,000 saved. You came from nothing and built everything.</div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIPS -->
+<section>
+  <div class="section-label">Pro Tips</div>
+  <div class="section-title">SURVIVAL GUIDE</div>
+  <div class="tips">
+    <div class="tip"><div class="tip-title">💤 Sleep is Important</div><div class="tip-text">Low energy means slower progress. Sleep 8 hours at home regularly. Burnout above 80% blocks career shifts.</div></div>
+    <div class="tip"><div class="tip-title">🍔 Keep Hunger Up</div><div class="tip-text">Below 15% hunger your health starts dropping. Eat at the Corner Store ($10) or cook at home ($5).</div></div>
+    <div class="tip"><div class="tip-title">💾 Save Often</div><div class="tip-text">The game auto-saves every 60 seconds but tap the Save button in the pause menu after big moments.</div></div>
+    <div class="tip"><div class="tip-title">🏦 Deposit Cash</div><div class="tip-text">Cash in your pocket does not earn interest. Move it to savings at the City Bank to make money while you sleep.</div></div>
+    <div class="tip"><div class="tip-title">🌡️ Watch Your Heat</div><div class="tip-text">Keep heat below 50% if you are running drugs. Above 50 brings police. Above 70 they actively chase you.</div></div>
+    <div class="tip"><div class="tip-title">👥 Build Relationships</div><div class="tip-text">Talk to Dr. Chen for medical discounts. Talk to Attorney James for lawsuit bonuses. Relationships matter.</div></div>
+    <div class="tip"><div class="tip-title">🎓 College is Worth It</div><div class="tip-text">$150 for a certificate lets you start a career at Level 3 instead of Level 1. Pays for itself in 2 shifts.</div></div>
+    <div class="tip"><div class="tip-title">💊 Mix Income Streams</div><div class="tip-text">Career + gig work + streaming passive income = fastest way to stack money. Do not rely on one source.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-title">STREET LIFE</div>
+  <p>Your Story · Your Rules · Your City</p>
+  <a href="https://spdadon.github.io/Street-life/" class="play-btn" target="_blank">▶ PLAY NOW</a>
+  <p style="margin-top:30px;font-size:10px;color:#1a3a1a">Made with ❤️ by spdadon</p>
+</footer>
+
+</body>
+</html>
